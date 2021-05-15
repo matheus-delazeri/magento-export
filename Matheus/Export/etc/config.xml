@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+<modules>
+	<Matheus_Export>
+	<version>0.1.0</version>
+	</Matheus_Export>
+</modules>
+
+<global>
+        <helpers>
+            <matheus_export>
+                <class>Matheus_Export_Helper</class>
+            </matheus_export>
+        </helpers>
+        <blocks>
+            <matheus_export>
+                <class>Matheus_Export_Block</class>
+            </matheus_export>
+        </blocks>
+</global>
+
+<admin>
+        <routers>
+            <export_admin>
+            <use>admin</use>
+                <args>
+                    <module>Matheus_Export</module>
+                    <frontName>exportmatheus</frontName>
+                </args>
+            </export_admin>
+        </routers>
+    </admin>
+
+</config>

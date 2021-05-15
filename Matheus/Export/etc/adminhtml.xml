@@ -1,0 +1,31 @@
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <matheus_export translate="title" module="matheus_export">
+                    <title>Export Products</title>
+                    <sort_order>5</sort_order>
+                    <action>exportmatheus/index/index</action>
+                </matheus_export>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+    <resources>
+        <all>
+            <title>Allow Everything</title>
+        </all>
+        <admin>
+            <children>
+                <catalog module="matheus_export" translate="title">
+                    <children>
+                        <set_time translate="title">
+                            <title>Export Products</title>
+                        </set_time>
+                    </children>
+                </catalog>  
+            </children>
+        </admin>
+    </resources>
+</acl>
+</config>    
