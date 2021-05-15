@@ -18,7 +18,7 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 				/** Set constants */
 				->setCellValueByColumnAndRow(0, $row_all, "admin")   //store
 				->setCellValueByColumnAndRow(1, $row_all, "base")    //website
-				->setCellValueByColumnAndRow(2, $row_all, "padrão")  //attribute_set
+				->setCellValueByColumnAndRow(2, $row_all, "default")  //attribute_set
 				->setCellValueByColumnAndRow(12, $row_all, "none")   //tax_class_id
 				->setCellValueByColumnAndRow(17, $row_all, "0")      //store_id
 				->setCellValueByColumnAndRow(18, $row_all, "")       //mgs_brand
@@ -135,7 +135,7 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 	}
 
 	private function setSpecificAttributes($objPHPExcel, $product, $row_all) {
-    $defaultAttributes = array("name","sku", "description","short_description","old_id","weight","news_from_date","news_to_date","url_path","status","url_key","category_ids",
+    $defaultAttributes = array("name","sku","description","short_description","old_id","weight","news_from_date","news_to_date","url_path","status","url_key","category_ids",
 	"visibility","country_of_manufacture","required_options","has_options","image_label","small_image_label","thumbnail_label","created_at","updated_at","price_type","sku_type",
 	"weight_type","shipment_type","links_purchased_separately","samples_title","links_title","links_exist","price","group_price","special_price","special_from_date","special_to_date",
 	"cost","tier_price","minimal_price","msrp_enabled","msrp_display_actual_price_type","msrp","tax_class_id","price_view","meta_title","meta_keyword","meta_description","is_recurring",
