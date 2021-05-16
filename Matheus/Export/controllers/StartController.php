@@ -22,8 +22,6 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 				->setCellValueByColumnAndRow(1, $row_all, "base")    //website
 				->setCellValueByColumnAndRow(12, $row_all, "none")   //tax_class_id
 				->setCellValueByColumnAndRow(17, $row_all, "0")      //store_id
-				->setCellValueByColumnAndRow(18, $row_all, "")       //mgs_brand
-				->setCellValueByColumnAndRow(19, $row_all, "0")      //leadtime
 				/** Set variables */
 				->setCellValueByColumnAndRow(2, $row_all, $atrSet->getAttributeSetName())          //attribute_set
 				->setCellValueByColumnAndRow(3, $row_all, $product->getTypeId())                   //product_type
@@ -35,7 +33,8 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 				->setCellValueByColumnAndRow(10, $row_all, $product->getStatus())                  //status
 				->setCellValueByColumnAndRow(11, $row_all, $product->getVisibility())              //visibility
 				->setCellValueByColumnAndRow(13, $row_all, $product->getDescription())             //description
-				->setCellValueByColumnAndRow(14, $row_all, $product->getShortDescription());       //short_description
+				->setCellValueByColumnAndRow(14, $row_all, $product->getShortDescription())        //short_description
+				->setCellValueByColumnAndRow(18, $row_all, $product->getData('created_at'));       //date of creation
 			/** Set children */
 			if ($product->getTypeId() == 'configurable'){
 				$children = $product->getTypeInstance()->getUsedProducts($product->getId());
@@ -86,8 +85,7 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 			->setCellValueByColumnAndRow(15, 1, "qty")
 			->setCellValueByColumnAndRow(16, 1, "is_in_stock")
 			->setCellValueByColumnAndRow(17, 1, "store_id")
-			->setCellValueByColumnAndRow(18, 1, "mgs_brand")
-			->setCellValueByColumnAndRow(19, 1, "leadtime");
+			->setCellValueByColumnAndRow(18, 1, "created_at");
 
 		$objPHPExcel->createSheet(1);
 		$objPHPExcel->setActiveSheetIndex(1)
