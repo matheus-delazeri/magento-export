@@ -14,27 +14,28 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 		$this->setHeaderNames($objPHPExcel);
 		foreach ($allProducts as $product){
 			$product = Mage::getModel('catalog/product')->load($product->getId());
+			$atrSet = Mage::getModel("eav/entity_attribute_set");
+			$atrSet->load($product->getAttributeSetId());
 			$objPHPExcel->setActiveSheetIndex(0)
 				/** Set constants */
 				->setCellValueByColumnAndRow(0, $row_all, "admin")   //store
 				->setCellValueByColumnAndRow(1, $row_all, "base")    //website
-				->setCellValueByColumnAndRow(2, $row_all, "default")  //attribute_set
 				->setCellValueByColumnAndRow(12, $row_all, "none")   //tax_class_id
 				->setCellValueByColumnAndRow(17, $row_all, "0")      //store_id
 				->setCellValueByColumnAndRow(18, $row_all, "")       //mgs_brand
-				->setCellValueByColumnAndRow(19, $row_all, "brasil") //country_of_manufacture
-				->setCellValueByColumnAndRow(20, $row_all, "0")      //leadtime
+				->setCellValueByColumnAndRow(19, $row_all, "0")      //leadtime
 				/** Set variables */
-				->setCellValueByColumnAndRow(3, $row_all, $product->getTypeId())                    //product_type
-				->setCellValueByColumnAndRow(5, $row_all, $product->getSku())                       //sku
-				->setCellValueByColumnAndRow(6, $row_all, $product->getName())                      //name
-				->setCellValueByColumnAndRow(7, $row_all, $product->getPrice())                     //price
+				->setCellValueByColumnAndRow(2, $row_all, $atrSet->getAttributeSetName())          //attribute_set
+				->setCellValueByColumnAndRow(3, $row_all, $product->getTypeId())                   //product_type
+				->setCellValueByColumnAndRow(5, $row_all, $product->getSku())                      //sku
+				->setCellValueByColumnAndRow(6, $row_all, $product->getName())                     //name
+				->setCellValueByColumnAndRow(7, $row_all, $product->getPrice())                    //price
 				->setCellValueByColumnAndRow(8, $row_all, $product->getSpecialPrice())             //special_price
 				->setCellValueByColumnAndRow(9, $row_all, $product->getWeight())                   //weight
-				->setCellValueByColumnAndRow(10, $row_all, $product->getStatus())                   //status
-				->setCellValueByColumnAndRow(11, $row_all, $product->getVisibility())               //visibility
-				->setCellValueByColumnAndRow(13, $row_all, $product->getDescription())              //description
-				->setCellValueByColumnAndRow(14, $row_all, $product->getShortDescription());        //short_description
+				->setCellValueByColumnAndRow(10, $row_all, $product->getStatus())                  //status
+				->setCellValueByColumnAndRow(11, $row_all, $product->getVisibility())              //visibility
+				->setCellValueByColumnAndRow(13, $row_all, $product->getDescription())             //description
+				->setCellValueByColumnAndRow(14, $row_all, $product->getShortDescription());       //short_description
 			/** Set children */
 			if ($product->getTypeId() == 'configurable'){
 				$children = $product->getTypeInstance()->getUsedProducts($product->getId());
@@ -64,6 +65,7 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 			throw new Exception('Error while saving Excel file.');
 		}	
 	}
+
 	private function setHeaderNames($objPHPExcel){
 		$objPHPExcel->setActiveSheetIndex(0)
 			->setCellValueByColumnAndRow(0, 1, "store")
@@ -85,8 +87,7 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 			->setCellValueByColumnAndRow(16, 1, "is_in_stock")
 			->setCellValueByColumnAndRow(17, 1, "store_id")
 			->setCellValueByColumnAndRow(18, 1, "mgs_brand")
-			->setCellValueByColumnAndRow(19, 1, "country_of_manufacture")
-			->setCellValueByColumnAndRow(20, 1, "leadtime");
+			->setCellValueByColumnAndRow(19, 1, "leadtime");
 
 		$objPHPExcel->createSheet(1);
 		$objPHPExcel->setActiveSheetIndex(1)
@@ -151,13 +152,13 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 	$index = 0;
 	foreach ($currentAttributes as $attributeCode){
 		$objPHPExcel->setActiveSheetIndex(0)
-			->setCellValueByColumnAndRow(20+$index, 1, $attributeCode);
+			->setCellValueByColumnAndRow(19+$index, 1, $attributeCode);
 		if(!empty($product->getAttributeText($attributeCode))){
 			$objPHPExcel->setActiveSheetIndex(0)
-				->setCellValueByColumnAndRow(20+$index, $row_all, $product->getAttributeText($attributeCode));
+				->setCellValueByColumnAndRow(19+$index, $row_all, $product->getAttributeText($attributeCode));
 		} elseif(!empty($product->getData($attributeCode))){
 			$objPHPExcel->setActiveSheetIndex(0)
-				->setCellValueByColumnAndRow(20+$index, $row_all, $product->getData($attributeCode));
+				->setCellValueByColumnAndRow(19+$index, $row_all, $product->getData($attributeCode));
 		}
 		$index+=1;
 	}
