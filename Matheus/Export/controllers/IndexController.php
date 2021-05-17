@@ -4,7 +4,7 @@ class Matheus_Export_IndexController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
-        $url = $this->getUrl('exportmatheus/start/index');
+        $url = $this->getUrl('export_products/start/index');
         $this->loadLayout();
 
         $this->_setActiveMenu('catalog/matheus');

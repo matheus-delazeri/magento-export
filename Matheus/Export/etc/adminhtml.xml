@@ -5,7 +5,7 @@
                 <matheus_export translate="title" module="matheus_export">
                     <title>Export Products</title>
                     <sort_order>5</sort_order>
-                    <action>exportmatheus/index/index</action>
+                    <action>export_products/index/index</action>
                 </matheus_export>
             </children>
         </catalog>
