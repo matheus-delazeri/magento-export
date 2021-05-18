@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config>
+<modules>
+	<Matheus_Import>
+	<version>0.1.0</version>
+	</Matheus_Import>
+</modules>
+<frontend>
+	<routers>
+		<import>
+			<use>standard</use>
+			<args>
+				<module>Matheus_Import</module>
+				<frontName>import</frontName>
+			</args>
+		</import>
+		<catalog>
+			<use>standard</use>
+			<args>
+				<module>Matheus_Export</module>
+				<frontName>catalog</frontName>
+			</args>
+		</catalog>
+	</routers>
+</frontend>
+</config>

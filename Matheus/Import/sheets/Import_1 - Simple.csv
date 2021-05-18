@@ -1,0 +1,6 @@
+store,websites,attribute_set,type,children,attribute,categories,sku,name,ean,price,special_price,weight,ncm,status,visibility,tax_class_id,volume_comprimento,volume_altura,volume_largura,description,short_description,qty,is_in_stock,store_id,mgs_brand,country_of_manufacture,leadtime
+admin,base,padrão,simple,,,Default Category,produto-teste,Produto Teste,,40,,"0,5",,1,4,none,,,,,Produto Teste,50,1,0,,brasil,0
+admin,base,padrão,configurable,,cor,Default Category,produto-configuravel,Produto Configurável,,100,,,,1,4,none,,,,Produto Configurável,Produto Configurável,0,0,0,,brasil,0
+admin,base,padrão,simple,,,Default Category,produto-configuravel-Azul,Produto Configurável-Azul,,100,,"0,4",,1,1,none,,,,,Produto Configurável,5,1,0,,brasil,0
+admin,base,padrão,simple,,,Default Category,produto-configuravel-Vermelho,Produto Configurável-Vermelho,,100,,"0,4",,1,1,none,,,,,Produto Configurável,5,1,0,,brasil,0
+admin,base,padrão,grouped,produto-teste,,Default Category,produto-agrupado,Produto Agrupado,,,,,,1,4,none,,,,Descrição,Curta,0,0,0,,brasil,0
