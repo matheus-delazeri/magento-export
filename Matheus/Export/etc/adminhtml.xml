@@ -20,7 +20,7 @@
                 <catalog module="matheus_export" translate="title">
                     <children>
                         <set_time translate="title">
-                            <title>Export Products</title>
+                            <title>Export Categories/Products</title>
                         </set_time>
                     </children>
                 </catalog>  
