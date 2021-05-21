@@ -2,6 +2,8 @@
 
 class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 	public function indexAction() {
+		/** Export file format */
+		$fileFormat = $this->getRequest()->getPost('file_type');
 		/** Date range for export */
 		$date_start = $this->getRequest()->getPost('date_start');
 		$date_end = $this->getRequest()->getPost('date_end');
@@ -70,13 +72,20 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 				$row_all += 1;
 			}
 		}
-		/** Save Excel 2007 file */
+		/** Save Excel file */
 		try{
 			$objPHPExcel->setActiveSheetIndex(0);
-			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-			header('Content-type: application/vnd.ms-excel');
-			header('Content-Disposition: attachment; filename="products.xlsx"');
-			$objWriter->save('php://output');
+			if($fileFormat == 'xlsx'){
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				header('Content-type: application/vnd.ms-excel');
+				header('Content-Disposition: attachment; filename="products.xlsx"');
+				$objWriter->save('php://output');
+			} else{
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+				header('Content-type: text/csv');
+				header('Content-Disposition: attachment; filename="products.csv"');
+				$objWriter->save('php://output');
+			}
 		} catch(Exception $e){
 			throw new Exception('Error while saving Excel file.');
 		}	

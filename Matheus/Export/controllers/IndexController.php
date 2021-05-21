@@ -10,8 +10,14 @@ class Matheus_Export_IndexController extends Mage_Adminhtml_Controller_Action
         $categories = $this->getCategories();
 
         $block_content = "
-        <h4>Select the date range for export:</h4>
+        <h4>Export file format: </h4>
         <form action='$url' method='post'>
+	    <select name='file_type'>
+                <option value='xlsx'>XLSX</option>
+                <option value='csv'>CSV</option>
+            </select>
+	    <p>* CSV format only supports one page per time (or products or association)</p>
+	    <h4>Select the date range for export:</h4>
             <label for='date_start'>Export products from: </label>
             <br>
             <input type='date' name='date_start' id='date_start' value='$today'>
