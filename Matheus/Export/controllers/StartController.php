@@ -32,26 +32,27 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 			$inChosenCat = $this->checkIfInChosenCat($product->getCategoryIds(), $category);
 			$inDateRange = $this->checkIfInDateRange($product_date, $date_start, $date_end);
 			if($inDateRange && $inChosenCat){
+				#echo "<pre>";
+				#var_dump($product);
+				#echo  Mage::helper('catalog/image')->init($product, 'image');
+				#var_dump($product->getMediaGallery());
 				if($page!='assoc'){
 					$objPHPExcel->setActiveSheetIndex(0)
-						/** Set constants */
-						->setCellValueByColumnAndRow(0, $row_all, "admin")   //store
-						->setCellValueByColumnAndRow(1, $row_all, "base")    //website
-						->setCellValueByColumnAndRow(12, $row_all, "none")   //tax_class_id
-						->setCellValueByColumnAndRow(17, $row_all, "0")      //store_id
 						/** Set variables */
-						->setCellValueByColumnAndRow(2, $row_all, $atrSet->getAttributeSetName())   //attribute_set
-						->setCellValueByColumnAndRow(3, $row_all, $product->getTypeId())            //product_type
-						->setCellValueByColumnAndRow(5, $row_all, $product->getSku())               //sku
-						->setCellValueByColumnAndRow(6, $row_all, $product->getName())              //name
-						->setCellValueByColumnAndRow(7, $row_all, $product->getPrice())             //price
-						->setCellValueByColumnAndRow(8, $row_all, $product->getSpecialPrice())      //special_price
-						->setCellValueByColumnAndRow(9, $row_all, $product->getWeight())            //weight
-						->setCellValueByColumnAndRow(10, $row_all, $product->getStatus())           //status
-						->setCellValueByColumnAndRow(11, $row_all, $product->getVisibility())       //visibility
-						->setCellValueByColumnAndRow(13, $row_all, $product->getDescription())      //description
-						->setCellValueByColumnAndRow(14, $row_all, $product->getShortDescription()) //short_description
-						->setCellValueByColumnAndRow(18, $row_all, $product_date);                  //date of creation
+						->setCellValueByColumnAndRow(0, $row_all, $product->getStoreId())           //store
+						->setCellValueByColumnAndRow(1, $row_all, $atrSet->getAttributeSetName())   //attribute_set
+						->setCellValueByColumnAndRow(2, $row_all, $product->getTypeId())            //product_type
+						->setCellValueByColumnAndRow(4, $row_all, $product->getSku())               //sku
+						->setCellValueByColumnAndRow(5, $row_all, $product->getName())              //name
+						->setCellValueByColumnAndRow(6, $row_all, $product->getPrice())             //price
+						->setCellValueByColumnAndRow(7, $row_all, $product->getSpecialPrice())      //special_price
+						->setCellValueByColumnAndRow(8, $row_all, $product->getWeight())            //weight
+						->setCellValueByColumnAndRow(9, $row_all, $product->getStatus())            //status
+						->setCellValueByColumnAndRow(10, $row_all, $product->getVisibility())       //visibility
+						->setCellValueByColumnAndRow(11, $row_all, $product->getTaxClassId())       //tax_class_id
+						->setCellValueByColumnAndRow(12, $row_all, $product->getDescription())      //description
+						->setCellValueByColumnAndRow(13, $row_all, $product->getShortDescription()) //short_description
+						->setCellValueByColumnAndRow(16, $row_all, $product_date);                  //date of creation
 
 					/** Set categories */
 					if (!empty($product->getCategoryids())){
@@ -59,6 +60,8 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 					}
 					/** Set stock fields */
 					$this->setStockFields($objPHPExcel, $product, $row_all);
+					/** Set images */
+					$this->setImages($objPHPExcel, $product, $row_all);
 					/** Set attributes */
 					$this->setSpecificAttributes($objPHPExcel, $product, $row_all);
 				}
@@ -73,23 +76,9 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 			}
 		}
 		/** Save Excel file */
-		try{
-			$objPHPExcel->setActiveSheetIndex(0);
-			if($fileFormat == 'xlsx'){
-				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-				header('Content-type: application/vnd.ms-excel');
-				header('Content-Disposition: attachment; filename="products.xlsx"');
-				$objWriter->save('php://output');
-			} else{
-				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
-				header('Content-type: text/csv');
-				header('Content-Disposition: attachment; filename="products.csv"');
-				$objWriter->save('php://output');
-			}
-		} catch(Exception $e){
-			throw new Exception('Error while saving Excel file.');
-		}	
+		$this->saveFile($objPHPExcel,$fileFormat);	
 	}
+
 	private function checkIfInChosenCat($catIds, $chosenCat){
 		if($chosenCat == 'all_categories'){
 			return true;
@@ -115,24 +104,26 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 		if($page!='assoc'){
 			$objPHPExcel->setActiveSheetIndex(0)
 				->setCellValueByColumnAndRow(0, 1, "store")
-				->setCellValueByColumnAndRow(1, 1, "websites")
-				->setCellValueByColumnAndRow(2, 1, "attribute_set")
-				->setCellValueByColumnAndRow(3, 1, "type")
-				->setCellValueByColumnAndRow(4, 1, "categories")
-				->setCellValueByColumnAndRow(5, 1, "sku")
-				->setCellValueByColumnAndRow(6, 1, "name")
-				->setCellValueByColumnAndRow(7, 1, "price")
-				->setCellValueByColumnAndRow(8, 1, "special_price")
-				->setCellValueByColumnAndRow(9, 1, "weight")
-				->setCellValueByColumnAndRow(10, 1, "status")
-				->setCellValueByColumnAndRow(11, 1, "visibility")
-				->setCellValueByColumnAndRow(12, 1, "tax_class_id")
-				->setCellValueByColumnAndRow(13, 1, "description")
-				->setCellValueByColumnAndRow(14, 1, "short_description")
-				->setCellValueByColumnAndRow(15, 1, "qty")
-				->setCellValueByColumnAndRow(16, 1, "is_in_stock")
-				->setCellValueByColumnAndRow(17, 1, "store_id")
-				->setCellValueByColumnAndRow(18, 1, "created_at");
+				->setCellValueByColumnAndRow(1, 1, "attribute_set")
+				->setCellValueByColumnAndRow(2, 1, "type")
+				->setCellValueByColumnAndRow(3, 1, "categories")
+				->setCellValueByColumnAndRow(4, 1, "sku")
+				->setCellValueByColumnAndRow(5, 1, "name")
+				->setCellValueByColumnAndRow(6, 1, "price")
+				->setCellValueByColumnAndRow(7, 1, "special_price")
+				->setCellValueByColumnAndRow(8, 1, "weight")
+				->setCellValueByColumnAndRow(9, 1, "status")
+				->setCellValueByColumnAndRow(10, 1, "visibility")
+				->setCellValueByColumnAndRow(11, 1, "tax_class_id")
+				->setCellValueByColumnAndRow(12, 1, "description")
+				->setCellValueByColumnAndRow(13, 1, "short_description")
+				->setCellValueByColumnAndRow(14, 1, "qty")
+				->setCellValueByColumnAndRow(15, 1, "is_in_stock")
+				->setCellValueByColumnAndRow(16, 1, "created_at")
+				->setCellValueByColumnAndRow(17, 1, "image")
+				->setCellValueByColumnAndRow(18, 1, "small_image")
+				->setCellValueByColumnAndRow(19, 1, "thumbnail")
+				->setCellValueByColumnAndRow(20, 1, "media_gallery");
 			$objPHPExcel->setActiveSheetIndex(0)->setTitle("All products");
 		}
 		if($page=='both'){
@@ -192,8 +183,8 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 		"weight_type","shipment_type","links_purchased_separately","samples_title","links_title","links_exist","price","group_price","special_price","special_from_date","special_to_date",
 		"cost","tier_price","minimal_price","msrp_enabled","msrp_display_actual_price_type","msrp","tax_class_id","price_view","meta_title","meta_keyword","meta_description","is_recurring",
 		"recurring_profile","custom_design","custom_design_from","custom_design_to","custom_layout_update","page_layout","options_container","gift_message_available", "manufacturer", "featured_product", "best_selling",
-		"open_amount_min", "open_amount_max", "aht_deal_qty", "is_redeemable", "use_config_is_redeemable", "lifetime", "use_config_lifetime", "email_template", "use_config_email_template", "allow_message", "use_config_allow_message",
-		"postmethods", "fit_size", "posting_days", "gift_wrapping_available", "gift_wrapping_price");
+		"open_amount_min", "open_amount_max", "aht_deal_qty", "is_redeemable", "use_config_is_redeemable", "lifetime", "use_config_lifetime", "email_template", "use_config_email_template", "allow_message",
+	       	"use_config_allow_message", "postmethods", "fit_size", "posting_days", "gift_wrapping_available", "gift_wrapping_price");
 
 		$attributeSetId = $product->getAttributeSetId();
 		$allAttributes = Mage::getModel('catalog/product_attribute_api')->items($attributeSetId);
@@ -205,26 +196,62 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 		$index = 0;
 		foreach ($currentAttributes as $attributeCode){
 			$objPHPExcel->setActiveSheetIndex(0)
-				->setCellValueByColumnAndRow(19+$index, 1, $attributeCode);
+				->setCellValueByColumnAndRow(21+$index, 1, $attributeCode);
 			if(!empty($product->getAttributeText($attributeCode))){
 				$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValueByColumnAndRow(19+$index, $row_all, $product->getAttributeText($attributeCode));
+					->setCellValueByColumnAndRow(21+$index, $row_all, $product->getAttributeText($attributeCode));
 			} elseif(!empty($product->getData($attributeCode))){
 				$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValueByColumnAndRow(19+$index, $row_all, $product->getData($attributeCode));
+					->setCellValueByColumnAndRow(21+$index, $row_all, $product->getData($attributeCode));
 			}
 			$index+=1;
 		}
-    }
+	} 
 
-    private function setStockFields($objPHPExcel, $product, $row_all){
+	private function setImages($objPHPExcel, $product, $row_all){
+
+		$mediaGallery = '';
+		$media = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'catalog/product';
+		foreach ($product->getMediaGalleryImages() as $image){ 
+			      $fileName = $image->getFile();
+			      $imageUrl = $media.$fileName;
+			      $mediaGallery .= $imageUrl.';';
+		}
+		$mediaGallery = substr($mediaGallery,0,-1);
+		$objPHPExcel->setActiveSheetIndex(0)
+			->setCellValueByColumnAndRow(17, $row_all, $media.$product->getImage())
+			->setCellValueByColumnAndRow(18, $row_all, $media.$product->getSmallImage())
+			->setCellValueByColumnAndRow(19, $row_all, $media.$product->getThumbnail())
+			->setCellValueByColumnAndRow(20, $row_all, $mediaGallery);
+	}
+
+	private function setStockFields($objPHPExcel, $product, $row_all){
 		$stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
 		$in_stock = 0;
 		if ($stock->getQty() > 0) {
-			$in_stock = 1;	
+		$in_stock = 1;	
 		}
 		$objPHPExcel->setActiveSheetIndex(0)
-			->setCellValueByColumnAndRow(15, $row_all, $stock->getQty())
-			->setCellValueByColumnAndRow(16, $row_all, $in_stock);
-    }
+			->setCellValueByColumnAndRow(14, $row_all, $stock->getQty())
+			->setCellValueByColumnAndRow(15, $row_all, $in_stock);
+	}
+
+	private function saveFile($objPHPExcel, $fileFormat){
+		try{
+			$objPHPExcel->setActiveSheetIndex(0);
+			if($fileFormat == 'xlsx'){
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				header('Content-type: application/vnd.ms-excel');
+				header('Content-Disposition: attachment; filename="products.xlsx"');
+				$objWriter->save('php://output');
+			} else{
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+				header('Content-type: text/csv');
+				header('Content-Disposition: attachment; filename="products.csv"');
+				$objWriter->save('php://output');
+			}
+		} catch(Exception $e){
+			throw new Exception('Error while saving Excel file.');
+		}
+	}
 }
