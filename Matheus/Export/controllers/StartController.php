@@ -174,7 +174,7 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 		}
 		$categoriesNames = substr($categoriesNames,0,-1);
 		$objPHPExcel->setActiveSheetIndex(0)
-			->setCellValueByColumnAndRow(4, $row_all, $categoriesNames);
+			->setCellValueByColumnAndRow(3, $row_all, $categoriesNames);
 	}
 
 	private function setSpecificAttributes($objPHPExcel, $product, $row_all) {
@@ -218,11 +218,13 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 			      $mediaGallery .= $imageUrl.';';
 		}
 		$mediaGallery = substr($mediaGallery,0,-1);
-		$objPHPExcel->setActiveSheetIndex(0)
-			->setCellValueByColumnAndRow(17, $row_all, $media.$product->getImage())
-			->setCellValueByColumnAndRow(18, $row_all, $media.$product->getSmallImage())
-			->setCellValueByColumnAndRow(19, $row_all, $media.$product->getThumbnail())
-			->setCellValueByColumnAndRow(20, $row_all, $mediaGallery);
+		if(!empty($mediaGallery)){
+			$objPHPExcel->setActiveSheetIndex(0)
+				->setCellValueByColumnAndRow(17, $row_all, $media.$product->getImage())
+				->setCellValueByColumnAndRow(18, $row_all, $media.$product->getSmallImage())
+				->setCellValueByColumnAndRow(19, $row_all, $media.$product->getThumbnail())
+				->setCellValueByColumnAndRow(20, $row_all, $mediaGallery);
+		}
 	}
 
 	private function setStockFields($objPHPExcel, $product, $row_all){
