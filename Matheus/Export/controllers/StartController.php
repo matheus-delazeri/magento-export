@@ -32,27 +32,23 @@ class Matheus_Export_StartController extends Mage_Adminhtml_Controller_Action{
 			$inChosenCat = $this->checkIfInChosenCat($product->getCategoryIds(), $category);
 			$inDateRange = $this->checkIfInDateRange($product_date, $date_start, $date_end);
 			if($inDateRange && $inChosenCat){
-				#echo "<pre>";
-				#var_dump($product);
-				#echo  Mage::helper('catalog/image')->init($product, 'image');
-				#var_dump($product->getMediaGallery());
 				if($page!='assoc'){
 					$objPHPExcel->setActiveSheetIndex(0)
 						/** Set variables */
-						->setCellValueByColumnAndRow(0, $row_all, $product->getStoreId())           //store
-						->setCellValueByColumnAndRow(1, $row_all, $atrSet->getAttributeSetName())   //attribute_set
-						->setCellValueByColumnAndRow(2, $row_all, $product->getTypeId())            //product_type
-						->setCellValueByColumnAndRow(4, $row_all, $product->getSku())               //sku
-						->setCellValueByColumnAndRow(5, $row_all, $product->getName())              //name
-						->setCellValueByColumnAndRow(6, $row_all, $product->getPrice())             //price
-						->setCellValueByColumnAndRow(7, $row_all, $product->getSpecialPrice())      //special_price
-						->setCellValueByColumnAndRow(8, $row_all, $product->getWeight())            //weight
-						->setCellValueByColumnAndRow(9, $row_all, $product->getStatus())            //status
-						->setCellValueByColumnAndRow(10, $row_all, $product->getVisibility())       //visibility
-						->setCellValueByColumnAndRow(11, $row_all, $product->getTaxClassId())       //tax_class_id
-						->setCellValueByColumnAndRow(12, $row_all, $product->getDescription())      //description
-						->setCellValueByColumnAndRow(13, $row_all, $product->getShortDescription()) //short_description
-						->setCellValueByColumnAndRow(16, $row_all, $product_date);                  //date of creation
+						->setCellValueByColumnAndRow(0, $row_all, $product->getStoreId())           // store
+						->setCellValueByColumnAndRow(1, $row_all, $atrSet->getAttributeSetName())   // attribute_set
+						->setCellValueByColumnAndRow(2, $row_all, $product->getTypeId())            // product_type
+						->setCellValueByColumnAndRow(4, $row_all, $product->getSku())               // sku
+						->setCellValueByColumnAndRow(5, $row_all, $product->getName())              // name
+						->setCellValueByColumnAndRow(6, $row_all, $product->getPrice())             // price
+						->setCellValueByColumnAndRow(7, $row_all, $product->getSpecialPrice())      // special_price
+						->setCellValueByColumnAndRow(8, $row_all, $product->getWeight())            // weight
+						->setCellValueByColumnAndRow(9, $row_all, $product->getStatus())            // status
+						->setCellValueByColumnAndRow(10, $row_all, $product->getVisibility())       // visibility
+						->setCellValueByColumnAndRow(11, $row_all, $product->getTaxClassId())       // tax_class_id
+						->setCellValueByColumnAndRow(12, $row_all, $product->getDescription())      // description
+						->setCellValueByColumnAndRow(13, $row_all, $product->getShortDescription()) // short_description
+						->setCellValueByColumnAndRow(16, $row_all, $product_date);                  // date of creation
 
 					/** Set categories */
 					if (!empty($product->getCategoryids())){
