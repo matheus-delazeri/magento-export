@@ -4,7 +4,7 @@ A Magento 1.9's module to export products informations to a .XLSX or .CSV file.
 ## Main features
 * Very simple to use and install
 * You can choose to only export products within a date range
-* You can chosse to only export products from an especific category
+* You can choose to only export products from an especific category
 * The output file will contain **all** product's images as URLs
 * Association page containing all the info about configurable products and their associated simple products
 * All custom attributes will be also exported (like size, color, etc)
