@@ -49,8 +49,3 @@ And the page `Association` will have the info about the association between conf
 ||child-product-M|size|M|
 
 You can also check the `Example Sheet.xlsx` to see which infos are stored.
-
-## To Do
-- [ ] Generate spreadsheet in packs (100 products per time)
-- [ ] Translate to Pt-Br
-- [ ] Enhance style
